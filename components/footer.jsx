@@ -1,10 +1,11 @@
-import { Box } from '@chakra-ui/react';
-import { Home, SettingsAutomation } from 'tabler-icons-react';
+import { Box } from "@chakra-ui/react";
+import { Home, SettingsAutomation } from "tabler-icons-react";
+import Link from "next/link";
 
 export const Footer = () => {
   return (
     <Box
-      height="64px"
+      height="38px"
       position="fixed"
       bottom={0}
       width="100vw"
@@ -13,10 +14,13 @@ export const Footer = () => {
       display="flex"
       flexDirection="row"
       justifyContent="space-around"
+      alignItems="center"
       zIndex={1000}
     >
       <Box>
-        <Home />
+        <Link href="/">
+          <Home />
+        </Link>
       </Box>
       <Box>
         <SettingsAutomation />

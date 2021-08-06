@@ -1,21 +1,22 @@
-import { MainLayout } from "../layouts/main-layout";
-import { endpoint } from "../queries/api";
-import { getAuthors } from "../queries/authors";
-import { request } from "graphql-request";
+import { MainLayout } from "../../layouts/main-layout";
+import { endpoint } from "../../queries/api";
+import { getPostByAuthorsId, listAuthorId } from "../../queries/authors";
 import { Box, Text, Image, SimpleGrid, Flex, Badge } from "@chakra-ui/react";
 import Link from "next/link";
 
-export default function Home({ authors }) {
+import { request } from "graphql-request";
+
+export default function AuthorId({ posts }) {
   return (
     <MainLayout title="Home">
       <Box padding="1em">
-        <Box as="h1" fontSize="4xl">
-          bABeS
+        <Box as="h1" fontSize="2xl">
+          {posts[0].author.name}
         </Box>
       </Box>
-      <SimpleGrid columns={{ base: 2, sm: 3, md: 6 }} spacing={2}>
-        {authors.map((item) => (
-          <ProductSimple item={item} key={item.name} />
+      <SimpleGrid>
+        {posts.map((item) => (
+          <ProductSimple item={item} key={item.title} />
         ))}
       </SimpleGrid>
     </MainLayout>
@@ -24,7 +25,7 @@ export default function Home({ authors }) {
 
 const ProductSimple = (props) => {
   return (
-    <Link href={`/author/${props.item.id}`}>
+    <Link href={`/post/${props.item.id}`}>
       <Box
         p="5"
         maxW="320px"
@@ -33,24 +34,27 @@ const ProductSimple = (props) => {
       >
         <Image
           borderRadius="md"
-          src={props.item.picture.url}
+          src={props.item.coverImage.url}
           fallbackSrc="https://via.placeholder.com/150"
         />
         <Flex align="baseline" mt={2}>
           <Badge colorScheme="pink">{props.item.title}</Badge>
         </Flex>
         <Text mt={2} fontSize="sm" fontWeight="semibold" lineHeight="short">
-          {props.item.name}
+          {props.item.excerpt}
         </Text>
       </Box>
     </Link>
   );
 };
 
-export async function getStaticProps(context) {
-  const { authors } = await request(endpoint, getAuthors);
-
+export async function getServerSideProps(context) {
+  const { posts } = await request(
+    endpoint,
+    getPostByAuthorsId(context.params.id)
+  );
+  console.log(posts);
   return {
-    props: { authors }
+    props: { posts }
   };
 }
