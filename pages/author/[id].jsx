@@ -9,16 +9,22 @@ import { request } from "graphql-request";
 export default function AuthorId({ posts }) {
   return (
     <MainLayout title="Home">
-      <Box padding="1em">
-        <Box as="h1" fontSize="2xl">
-          {posts[0].author.name}
-        </Box>
-      </Box>
-      <SimpleGrid>
-        {posts.map((item) => (
-          <ProductSimple item={item} key={item.title} />
-        ))}
-      </SimpleGrid>
+      {posts.length < 1 ? (
+        <Text>Not Found</Text>
+      ) : (
+        <>
+          <Box padding="1em">
+            <Box as="h1" fontSize="2xl">
+              {posts[0].author.name}
+            </Box>
+          </Box>
+          <SimpleGrid>
+            {posts.map((item) => (
+              <ProductSimple item={item} key={item.title} />
+            ))}
+          </SimpleGrid>
+        </>
+      )}
     </MainLayout>
   );
 }
