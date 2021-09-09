@@ -47,7 +47,7 @@ const ProductSimple = (props) => {
   );
 };
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const { authors } = await request(endpoint, getAuthors);
 
   return {
