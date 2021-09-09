@@ -2,7 +2,15 @@ import { MainLayout } from "../layouts/main-layout";
 import { endpoint } from "../queries/api";
 import { getAuthors } from "../queries/authors";
 import { request } from "graphql-request";
-import { Box, Text, Image, SimpleGrid, Flex, Badge } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Image,
+  SimpleGrid,
+  Flex,
+  Badge,
+  AspectRatio
+} from "@chakra-ui/react";
 import Link from "next/link";
 
 export default function Home({ authors }) {
@@ -31,11 +39,13 @@ const ProductSimple = (props) => {
         borderWidth="1px"
         _hover={{ backgroundColor: "teal.800", cursor: "pointer" }}
       >
-        <Image
-          borderRadius="md"
-          src={props.item.picture.url}
-          fallbackSrc="https://via.placeholder.com/150"
-        />
+        <AspectRatio maxW="400px" ratio={10 / 21}>
+          <Image
+            borderRadius="md"
+            src={props.item.picture.url}
+            fallbackSrc="https://via.placeholder.com/150"
+          />
+        </AspectRatio>
         <Flex align="baseline" mt={2}>
           <Badge colorScheme="pink">{props.item.title}</Badge>
         </Flex>
